@@ -1,0 +1,80 @@
+#include <stdio.h> 
+
+#define YES 1 
+#define NO 0 
+#define MAXLINE 1000 
+
+void lineProcess(char buffer[]); 
+
+int main() 
+{ 
+char line[MAXLINE]; 
+
+fgets(line, MAXLINE, stdin); 
+lineProcess(line); 
+fputs(line, stdout); 
+
+printf("press Enter to continue\n"); 
+getchar(); 
+return 0; 
+} 
+
+void lineProcess(char buffer[]) 
+{ 
+int i = -1; 
+int flag = NO;  
+int nFlag = NO; 
+int lenght = 0; 
+int maxLenght = 0; 
+int maxStart = 0; 
+int maxEnd = 0; 
+int wordStart = 0; 
+
+do { 
+i++; 
+
+if ((buffer[i] >= 'a' && buffer[i] <= 'z') || (buffer[i] >= 'A' && buffer[i] <= 'Z')) 
+{ 
+if (flag == NO) 
+{ 
+flag = YES; 
+wordStart = i; 
+} 
+
+lenght++; 
+} 
+else if (buffer[i] >= '0' && buffer[i] <= '9') 
+{ 
+nFlag = YES; 
+} 
+else 
+{ 
+if (flag == YES && nFlag == NO && lenght > maxLenght) 
+{ 
+maxLenght = lenght; 
+maxStart = wordStart; 
+maxEnd = i; 
+} 
+
+lenght = 0; 
+nFlag = NO; 
+flag = NO; 
+} 
+
+} while (buffer[i] != '\0'); 
+
+maxEnd--; 
+maxStart--; 
+
+do { 
+maxEnd++; 
+maxStart++; 
+buffer[maxStart] = buffer[maxEnd]; 
+} while (buffer[maxEnd] != '\0'); 
+
+while (maxStart < maxEnd) 
+{ 
+maxStart++; 
+buffer[maxStart] = '\0'; 
+} 
+} 
